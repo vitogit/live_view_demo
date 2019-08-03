@@ -17,6 +17,7 @@ defmodule LiveViewDemoWeb.Router do
   scope "/", LiveViewDemoWeb do
     pipe_through :browser
     live "/", MainLive
+    live "/room/:room_id", RoomLive
   end
 
 end
