@@ -4,7 +4,7 @@
   <div class="column column-70">
     <ul id="msgs">
       <%= for msg <- @messages do %>
-          <li><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
+        <li><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
       <% end %>
     </ul>
     <%= render "form.html", assigns %>

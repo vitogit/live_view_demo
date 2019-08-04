@@ -22,7 +22,7 @@ defmodule LiveViewDemoWeb.RoomLive do
   end
 
   def handle_event("send_message", %{"message" => params}, socket) do
-    case Room.create_message(params) do
+    case Room.process_message(params) do
       {:ok, message} ->
         {:noreply, fetch(socket, message)}
       {:error, %Ecto.Changeset{} = changeset} ->
