@@ -1,0 +1,15 @@
+<%= f = form_for @changeset, "#", [phx_submit: :send_message, autocomplete: :off] %>
+  <%= label f, :username %>
+  <%= text_input f, :username %>
+  <%= error_tag f, :username %>
+
+  <%= label f, :message %>
+  <%= text_input f, :content %>
+  <%= error_tag f, :content %>
+
+  <%= hidden_input f, :room %>
+
+  <div>
+    <%= submit "Send", phx_disable_with: "Sending..." %>
+  </div>
+</form>

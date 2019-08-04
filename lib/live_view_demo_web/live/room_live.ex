@@ -2,33 +2,37 @@ defmodule LiveViewDemoWeb.RoomLive do
   use Phoenix.LiveView
   alias LiveViewDemo.Message
   alias LiveViewDemo.Room
+
   def render(assigns) do
-    ~L"""
-      <div class="row">
-        <div class="column">
-        </div>
-        <div class="column column-70">
-          <ul id="msgs" style="list-style: none; height:300px; border: 1px solid; padding: 10px;overflow:auto">
-            <%= for msg <- @messages do %>
-                <li><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    """
+    LiveViewDemoWeb.RoomView.render("index.html", assigns)
   end
 
   def mount(%{path_params: %{"room_id" => room}}, socket) do
     if connected?(socket), do: Room.subscribe(room)
-    {:ok, fetch(socket, nil, room)}
+    {:ok, fetch(socket, %{username: nil, room: room})}
   end
 
-  def fetch(socket, username \\ nil, room) do
+  def fetch(socket, message) do
     assign(socket, %{
-      username: username,
-      messages: Room.messages(room),
-      changeset: Room.change_message(%Message{username: username, room: room}),
-      room: room
+      username: message.username,
+      room: message.room,
+      messages: Room.messages(message.room),
+      changeset: Room.change_message(%Message{username: message.username, room: message.room})
     })
+  end
+
+  def handle_event("send_message", %{"message" => params}, socket) do
+    case Room.create_message(params) do
+      {:ok, message} ->
+        {:noreply, fetch(socket, message)}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  def handle_info(_step, socket) do
+    room = socket.assigns |> Map.get(:room)
+    result = assign(socket, %{ messages: Room.messages(room) })
+    {:noreply,  result}
   end
 end

@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="column">
+  </div>
+  <div class="column column-70">
+    <ul id="msgs">
+      <%= for msg <- @messages do %>
+          <li><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
+      <% end %>
+    </ul>
+    <%= render "form.html", assigns %>
+  </div>
+</div>

@@ -23,6 +23,26 @@ defmodule LiveViewDemo.Room do
   end
 
   @doc """
+  Creates a message.
+
+  ## Examples
+
+      iex> create_message(%{field: value})
+      {:ok, %Message{}}
+
+      iex> create_message(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  # TODO improve this 
+  def create_message(attrs \\ %{}) do
+    %Message{}
+    |> Message.changeset(attrs)
+    |> Repo.insert()
+    |> notify_subs([:message, :inserted])
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking message changes.
 
   ## Examples
