@@ -10,3 +10,10 @@
     <%= render "form.html", assigns %>
   </div>
 </div>
+
+<script>
+  document.addEventListener("phx:update", function() {
+    var msgs = document.getElementById("msgs");
+    msgs.scrollTop = msgs.scrollHeight;
+  })
+</script>
