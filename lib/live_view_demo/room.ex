@@ -22,6 +22,14 @@ defmodule LiveViewDemo.Room do
     Repo.all(query)
   end
 
+  def video(room) do
+    query = from(m in Message, where: m.room == ^room, order_by: [desc: m.id], limit: 1)
+    message = Repo.one(query)
+    video_string = ""
+    if message && message.video&& message.video["playlist"] do
+      video_string = "https://www.youtube.com/embed/videoseries?list=#{message.video["playlist"]}&autoplay=1&start=#{message.video["timestart"]}&index=#{message.video["index"]}"
+    end
+  end
   @doc """
   Creates a message.
 
@@ -80,16 +88,25 @@ defmodule LiveViewDemo.Room do
   end
 
   def process_message(message) do
-    input = parse_message(message)
-    case input do
-      { :rolled, message, data } ->
-        username = Map.get(message, "username")
-        room = Map.get(message, "room")
-        roll = roller(data)
-        content = "#{username} rolled #{data.number}d#{data.faces}:  #{roll}"
-        create_message( %{room: room, username: username, content: content} )
-      { :ok, message } ->
-        create_message(message)
+    playlist = Map.get(message, "playlist")
+    # TODO This changes the username of the current user which is bad 
+    if (playlist) do 
+      username = "Music"
+      content = "#{username} changed the playlist"
+      video = %{timestart: 0, playlist: playlist, index: 0 }
+      create_message( %{room: Map.get(message, "room"), username: username, content: content, video: video} )
+    else
+      input = parse_message(message)
+      case input do
+        { :rolled, message, data } ->
+          username = Map.get(message, "username")
+          room = Map.get(message, "room")
+          roll = roller(data)
+          content = "#{username} rolled #{data.number}d#{data.faces}:  #{roll}"
+          create_message( %{room: room, username: username, content: content} )
+        { :ok, message } ->
+          create_message(message)
+      end
     end
   end
 

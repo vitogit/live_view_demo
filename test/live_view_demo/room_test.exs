@@ -5,8 +5,8 @@ defmodule LiveViewDemo.RoomTest do
 
   describe "messages" do
     alias LiveViewDemo.Message
-
-    @valid_attrs %{content: "some content", room: "some room", username: "some username"}
+    @video_attrs %{"playlist"=> "some playlist", "starttime" => "123", "video_index" => "3"}
+    @valid_attrs %{content: "some content", room: "some room", username: "some username", video: @video_attrs}
     @invalid_attrs %{content: nil, room: nil, username: nil}
 
     def message_fixture(attrs \\ %{}) do
@@ -15,6 +15,11 @@ defmodule LiveViewDemo.RoomTest do
         |> Enum.into(@valid_attrs)
         |> Room.create_message()
       message
+    end
+
+    test "message has video field" do
+      message = message_fixture()
+      assert message.video != nil
     end
 
     test "messages/1 returns message rooms" do

@@ -17,7 +17,8 @@ defmodule LiveViewDemoWeb.RoomLive do
       username: message.username,
       room: message.room,
       messages: Room.messages(message.room),
-      changeset: Room.change_message(%Message{username: message.username, room: message.room})
+      changeset: Room.change_message(%Message{username: message.username, room: message.room}),
+      video: Room.video(message.room)
     })
   end
 
