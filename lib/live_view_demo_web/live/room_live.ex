@@ -9,31 +9,39 @@ defmodule LiveViewDemoWeb.RoomLive do
 
   def mount(%{path_params: %{"room_id" => room}}, socket) do
     if connected?(socket), do: Room.subscribe(room)
-    {:ok, fetch(socket, %{username: nil, room: room})}
+    {:ok, fetch_messages(socket, %{room: room, username: ""})}
   end
 
-  def fetch(socket, message) do
+  # TODO keep the video going when adding new message
+  def fetch_messages(socket, message) do
+    video = Room.last_video(message.room) || socket.assigns[:video] || ""
     assign(socket, %{
       username: message.username,
       room: message.room,
       messages: Room.messages(message.room),
-      changeset: Room.change_message(%Message{username: message.username, room: message.room}),
-      video: Room.video(message.room)
+      changeset: Room.change_message(%Message{username: message.username, room: message.room, video: video}),
+      video: video
     })
   end
 
+  def fetch_video(socket, video) do
+    assign(socket, %{
+      video: video
+    })
+  end
+  
   def handle_event("send_message", %{"message" => params}, socket) do
     case Room.process_message(params) do
       {:ok, message} ->
-        {:noreply, fetch(socket, message)}
+        {:noreply, fetch_messages(socket, message)}
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
 
   def handle_info(_step, socket) do
-    room = socket.assigns |> Map.get(:room)
-    result = assign(socket, %{ messages: Room.messages(room) })
+    room = socket.assigns[:room]
+    result = assign(socket, %{ messages: Room.messages(room), video: Room.last_video(room) })
     {:noreply,  result}
   end
 end

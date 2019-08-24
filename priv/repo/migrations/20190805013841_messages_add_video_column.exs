@@ -3,7 +3,7 @@ defmodule LiveViewDemo.Repo.Migrations.MessagesAddVideoColumn do
 
   def change do
     alter table("messages") do
-      add :video, :map, default: "{}"
+      add :video, :string, default: ""
     end
   end
 end

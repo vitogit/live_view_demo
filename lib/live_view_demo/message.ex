@@ -6,7 +6,7 @@ defmodule LiveViewDemo.Message do
     field :content, :string
     field :room, :string
     field :username, :string
-    field :video, :map #TODO best to have Room as another schema with many messages and a video
+    field :video, :string
     timestamps()
   end
 

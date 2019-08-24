@@ -22,14 +22,10 @@ defmodule LiveViewDemo.Room do
     Repo.all(query)
   end
 
-  def video(room) do
+  def last_video(room) do
     query = from(m in Message, where: m.room == ^room, order_by: [desc: m.id], limit: 1)
     message = Repo.one(query)
-    video_string = ""
-    IO.puts "message____ #{inspect message} "
-    if message && message.video && message.video["playlist"] do
-      video_string = "https://www.youtube.com/embed/videoseries?list=#{message.video["playlist"]}&autoplay=1&start=#{message.video["timestart"]}&index=#{message.video["index"]}"
-    end
+    message.video
   end
   @doc """
   Creates a message.
@@ -88,15 +84,14 @@ defmodule LiveViewDemo.Room do
     end
   end
 
-  # DO PATTERN MATCHING
+  # TODO DO PATTERN MATCHING
   def process_message(message) do
-    playlist = message["playlist"]
+    video = message["video"] || Room.last_video(message.room)
     username = message["username"]
     room = message["room"]
     content = message["content"]
-    if (playlist) do 
-      video = %{timestart: 0, playlist: playlist, index: 0 }
-      create_message( %{room: room, username: username, content: content, video: video} )
+    if (video != "") do 
+      create_message( %{room: room, username: username, content: "Changed video", video: video} )
     else
       input = parse_message(message)
       case input do
@@ -104,9 +99,9 @@ defmodule LiveViewDemo.Room do
           room = room
           roll = roller(data)
           content = "#{username} rolled #{data.number}d#{data.faces}:  #{roll}"
-          create_message( %{room: room, username: username, content: content} )
+          create_message( %{room: room, username: username, content: content, video: video} )
         { :ok, message } ->
-          create_message(message)
+          create_message(%{room: room, username: username, content: content, video: video})
       end
     end
   end
