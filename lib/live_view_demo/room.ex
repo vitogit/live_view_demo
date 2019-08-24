@@ -26,7 +26,8 @@ defmodule LiveViewDemo.Room do
     query = from(m in Message, where: m.room == ^room, order_by: [desc: m.id], limit: 1)
     message = Repo.one(query)
     video_string = ""
-    if message && message.video&& message.video["playlist"] do
+    IO.puts "message____ #{inspect message} "
+    if message && message.video && message.video["playlist"] do
       video_string = "https://www.youtube.com/embed/videoseries?list=#{message.video["playlist"]}&autoplay=1&start=#{message.video["timestart"]}&index=#{message.video["index"]}"
     end
   end
@@ -77,7 +78,7 @@ defmodule LiveViewDemo.Room do
   end
 
   defp parse_message(message) do
-    content = Map.get(message, "content")
+    content = message["content"]
     cond do
       Regex.match?(~r{^/r (\d+)d(\d+)}, content) ->
         [_ , number, faces] = Regex.run(~r{^/r (\d+)d(\d+)}, content)
@@ -87,20 +88,20 @@ defmodule LiveViewDemo.Room do
     end
   end
 
+  # DO PATTERN MATCHING
   def process_message(message) do
-    playlist = Map.get(message, "playlist")
-    # TODO This changes the username of the current user which is bad 
+    playlist = message["playlist"]
+    username = message["username"]
+    room = message["room"]
+    content = message["content"]
     if (playlist) do 
-      username = "Music"
-      content = "#{username} changed the playlist"
       video = %{timestart: 0, playlist: playlist, index: 0 }
-      create_message( %{room: Map.get(message, "room"), username: username, content: content, video: video} )
+      create_message( %{room: room, username: username, content: content, video: video} )
     else
       input = parse_message(message)
       case input do
         { :rolled, message, data } ->
-          username = Map.get(message, "username")
-          room = Map.get(message, "room")
+          room = room
           roll = roller(data)
           content = "#{username} rolled #{data.number}d#{data.faces}:  #{roll}"
           create_message( %{room: room, username: username, content: content} )
