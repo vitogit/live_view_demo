@@ -16,7 +16,7 @@ defmodule LiveViewDemoWeb.RoomLive do
   def fetch_messages(socket, message) do
     video = Room.last_video(message.room) || socket.assigns[:video] || ""
     assign(socket, %{
-      username: message.username,
+      username: socket.assigns[:username] || message.username,
       room: message.room,
       messages: Room.messages(message.room),
       changeset: Room.change_message(%Message{username: message.username, room: message.room, video: video}),
@@ -37,6 +37,10 @@ defmodule LiveViewDemoWeb.RoomLive do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
+  end
+
+  def handle_event("join_room", %{"message" => params}, socket) do
+    {:noreply, assign(socket, username: params["username"])}
   end
 
   def handle_info(_step, socket) do

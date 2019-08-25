@@ -1,19 +1,14 @@
 <%= f = form_for @changeset, "#", [phx_submit: :send_message, autocomplete: :off] %>
-  <%= label f, :username %>
-  <%= text_input f, :username %>
-  <%= error_tag f, :username %>
 
-  <%= label f, :message %>
-  <%= text_input f, :content %>
+  <%= text_input f, :content, placeholder: "Message..."%>
   <%= error_tag f, :content %>
 
-  <%= label f, :video %>
-  <%= text_input f, :video %>
+  <%= text_input f, :video, placeholder: "Change video" %>
   <%= error_tag f, :video %>
   
   <%= hidden_input f, :room %>
-
-  <div>
+  <%= hidden_input f, :username, value: @username %>
+  <div style="visibility:hidden">
     <%= submit "Send", phx_disable_with: "Sending..." %>
   </div>
 </form>

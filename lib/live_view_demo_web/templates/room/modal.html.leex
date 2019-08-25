@@ -1,0 +1,12 @@
+<div class='modale <%= if @username == "", do: "opened", else: ""%>' aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-body">
+      <%= f = form_for @changeset, "#", [phx_submit: :join_room, autocomplete: :off] %>
+        <%= text_input f, :username, placeholder: "Username" %>
+        <%= error_tag f, :username %>
+        <div>
+          <%= submit "Join", phx_disable_with: "Sending..." %>
+        </div>
+      </form>
+  </div>
+</div>
