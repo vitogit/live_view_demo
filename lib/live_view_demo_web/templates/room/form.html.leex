@@ -2,10 +2,14 @@
 
   <%= text_input f, :content, placeholder: "Message..."%>
   <%= error_tag f, :content %>
-
+  <p style="font-size:10px;margin-left:20px">
+   <b>To Roll:</b> /r 2d6
+  </p>
   <%= text_input f, :video, placeholder: "Change video" %>
   <%= error_tag f, :video %>
-  
+  <p style="font-size:10px;margin-left:20px">
+   Paste a youtube playlist and press enter to change the video
+  </p>
   <%= hidden_input f, :room %>
   <%= hidden_input f, :username, value: @username %>
   <div style="visibility:hidden">
