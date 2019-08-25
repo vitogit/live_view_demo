@@ -5,7 +5,7 @@
   <div class="column column-70">
     <ul id="msgs">
       <%= for msg <- @messages do %>
-        <li><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
+        <li class ='<%= if String.starts_with?(msg.content, "Rolled:"), do: "rolled", else: ""%>'><strong> <%= msg.username %> : </strong> <%= msg.content %> </li>
       <% end %>
     </ul>
     <%= render "form.html", assigns %>

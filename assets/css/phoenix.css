@@ -190,3 +190,11 @@ header nav a {
 .modal-body form {
   margin-bottom: 0;
 }
+
+.rolled {
+  background-color: #ffc354;
+  border-radius: 35px;
+  padding-left: 5px;
+  margin-left: -5px;
+  font-style: italic;
+}

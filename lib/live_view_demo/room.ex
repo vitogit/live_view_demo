@@ -98,7 +98,7 @@ defmodule LiveViewDemo.Room do
         { :rolled, message, data } ->
           room = room
           roll = roller(data)
-          content = "#{username} rolled #{data.number}d#{data.faces}:  #{roll}"
+          content = "Rolled: #{data.number}d#{data.faces}:  #{roll}"
           create_message( %{room: room, username: username, content: content, video: video} )
         { :ok, message } ->
           create_message(%{room: room, username: username, content: content, video: video})
