@@ -90,8 +90,8 @@ defmodule LiveViewDemo.Room do
     username = message["username"]
     room = message["room"]
     content = message["content"]
-    if (video != "") do 
-      create_message( %{room: room, username: username, content: "Changed video", video: video} )
+    if (video != "") do
+      create_message( %{room: room, username: username, content: "Changed video", video: parse_video(video)} )
     else
       input = parse_message(message)
       case input do
@@ -118,5 +118,23 @@ defmodule LiveViewDemo.Room do
         Enum.map(1..number, fn _ -> :rand.uniform(faces) end)
         |> Enum.join(" + ")
     end
+  end
+  
+  defp parse_video(video) do
+    query = URI.parse(video).query
+    parsed_params = URI.query_decoder(query) |> Enum.into(%{}) 
+    video_index = parsed_params["index"] || "0"
+    video_time = parsed_params["start"] || "0"
+    parsed_video = "https://www.youtube.com/embed/"
+    
+    parsed_video =
+      cond do
+        parsed_params["list"] ->
+          "#{parsed_video}videoseries?list=#{parsed_params["list"]}&index=#{video_index}&start=#{video_time}&autoplay=1"
+        parsed_params["v"] ->
+          "#{parsed_video}#{parsed_params["v"]}?start=#{video_time}&autoplay=1"
+        true ->
+          ""
+      end
   end
 end
