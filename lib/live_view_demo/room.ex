@@ -25,7 +25,7 @@ defmodule LiveViewDemo.Room do
   def last_video(room) do
     query = from(m in Message, where: m.room == ^room, order_by: [desc: m.id], limit: 1)
     message = Repo.one(query)
-    message.video
+    if message, do: message.video, else: nil
   end
   @doc """
   Creates a message.

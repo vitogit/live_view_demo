@@ -11,9 +11,7 @@
     <header>
       <section class="container">
         <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">About</a></li>
-          </ul>
+            <h1><a href="/">Roll & Music together</a></h1>
         </nav>
       </section>
     </header>
