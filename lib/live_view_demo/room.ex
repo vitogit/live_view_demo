@@ -126,13 +126,14 @@ defmodule LiveViewDemo.Room do
     video_index = parsed_params["index"] || "0"
     video_time = parsed_params["start"] || "0"
     parsed_video = "https://www.youtube.com/embed/"
+    extra_params = "&showinfo=0&controls=0&modestbranding=1&rel=0&disablekb=0"
     
     parsed_video =
       cond do
         parsed_params["list"] ->
-          "#{parsed_video}videoseries?list=#{parsed_params["list"]}&index=#{video_index}&start=#{video_time}&autoplay=1"
+          "#{parsed_video}videoseries?list=#{parsed_params["list"]}&index=#{video_index}&start=#{video_time}#{extra_params}&autoplay=1"
         parsed_params["v"] ->
-          "#{parsed_video}#{parsed_params["v"]}?start=#{video_time}&autoplay=1"
+          "#{parsed_video}#{parsed_params["v"]}?start=#{video_time}#{extra_params}&autoplay=1"
         true ->
           ""
       end

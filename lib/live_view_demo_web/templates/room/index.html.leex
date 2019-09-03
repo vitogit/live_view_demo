@@ -1,6 +1,13 @@
 <div class="row">
   <div class="column">
     <iframe width="250" height="250" src="<%= @video %>" frameborder="0"></iframe>
+    <br>
+    <a phx-click="play_video" class="button" href="#">&#9654;</a>
+    <a phx-click="stop_video" class="button" href="#">&block;</a>
+    <!-- <a phx-click="pause_video" class="button" href="#">&#9612;&#9612;</a> -->
+    <a phx-click="prev_video" class="button" href="#">Prev</a>
+    <a phx-click="next_video" class="button" href="#">Next</a>
+
   </div>
   <div class="column column-70">
     <ul id="msgs">

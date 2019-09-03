@@ -48,4 +48,16 @@ defmodule LiveViewDemoWeb.RoomLive do
     result = assign(socket, %{ messages: Room.messages(room), video: Room.last_video(room) })
     {:noreply,  result}
   end
+
+  def handle_event("play_video", _, socket) do
+    new_video = String.replace(socket.assigns[:video], "autoplay=0", "autoplay=1")
+    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Played the video", video: new_video } )
+    {:noreply, assign(socket, video: new_video) }
+  end
+
+  def handle_event("stop_video", _, socket) do
+    new_video = String.replace(socket.assigns[:video], "autoplay=1", "autoplay=0")
+    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Paused the video", video: new_video } )
+    {:noreply, assign(socket, video: new_video) }
+  end
 end
