@@ -56,7 +56,7 @@ defmodule LiveViewDemoWeb.RoomLive do
 
   def handle_event("stop_video", _, socket) do
     new_video = String.replace(socket.assigns[:video], "autoplay=1", "autoplay=0")
-    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Paused the video", video: new_video } )
+    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Stopped the video", video: new_video } )
     {:noreply, assign(socket, video: new_video) }
   end
 end

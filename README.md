@@ -2,7 +2,7 @@
 
 This is my entry in [Phoenix Phrenzy](https://phoenixphrenzy.com), showing off what [Phoenix](https://phoenixframework.org/) and [LiveView](https://github.com/phoenixframework/phoenix_live_view) can do.
 
-![App Name Here preview](assets/static/images/preview.gif "App Name Here")
+![App Name Here preview](http://g.recordit.co/awvCS6MLyA.gif)
 
 # What it is?
 Do you like play Pen & Paper Rpg over the internet with your friends? Games like Dungeons & Dragons, Vampire, Call of Cthulhu.
