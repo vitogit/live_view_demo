@@ -9,17 +9,16 @@ defmodule LiveViewDemoWeb.RoomLive do
 
   def mount(%{path_params: %{"room_id" => room}}, socket) do
     if connected?(socket), do: Room.subscribe(room)
-    {:ok, fetch_messages(socket, %{room: room, username: ""})}
+    {:ok, fetch_messages(socket, %{room: room, username: "", video: ""})}
   end
 
-  # TODO keep the video going when adding new message
   def fetch_messages(socket, message) do
     video = Room.last_video(message.room) || socket.assigns[:video] || ""
     assign(socket, %{
       username: socket.assigns[:username] || message.username,
       room: message.room,
       messages: Room.messages(message.room),
-      changeset: Room.change_message(%Message{username: message.username, room: message.room, video: video}),
+      changeset: Room.change_message(%Message{username: message.username, room: message.room, video: nil }),
       video: video
     })
   end
