@@ -1,22 +1,28 @@
-# (App Name Here)
+# Roll & Music together
 
 This is my entry in [Phoenix Phrenzy](https://phoenixphrenzy.com), showing off what [Phoenix](https://phoenixframework.org/) and [LiveView](https://github.com/phoenixframework/phoenix_live_view) can do.
 
 ![App Name Here preview](assets/static/images/preview.gif "App Name Here")
 
-# Phrenzy Instructions
+# What it is?
+Do you like play Pen & Paper Rpg over the internet with your friends? Games like Dungeons & Dragons, Vampire, Call of Cthulhu.
+Do you want a virtual place to roll the dices so your party can see it?
+Do you want to listen to the same music together to make your campaign more epic?
 
-Fork this repo and start build an application! See [Phoenix Phrenzy](https://phoenixphrenzy.com) for details.
+Well this app can do it. It will generate a random room that you can join and share the link with your friends. Then you can chat, roll dices and add a youtube playlist with music that it will sync for everyone in the room.
 
-Note: for development, you'll need Elixir, Erlang and Node.js. If you use the [asdf version manager](https://github.com/asdf-vm/asdf) and install the [relevant plugins](https://asdf-vm.com/#/plugins-all?id=plugin-list), you can install the versions specified in `.tool-versions` with `asdf install`.
+Roll 2 dices of 6 using this command in the chat `/r 2d6`, add a new playlist pasting in the second input field, like this one (Phoenix and Elixir tutorials): https://www.youtube.com/playlist?list=PLtTtLKRL6UYGxOHToRYnXBynon5plZ7Jd
 
 
-## Deployment
+# Development
 
-How you deploy your app is up to you. A couple of the easiest options are:
+The idea is to show the power of Phoenix Live View so I tried to use almost no javascript. This currently allows you to add a new youtube playlist, play the playlist and stop the playlist. This is done changing the variables of the youtube playlist, like autostart=1 to start the video , autostart=0 to stop it. Phoenix will reload the video when the video string changes.
 
-- Heroku ([instructions](https://hexdocs.pm/phoenix/heroku.html))
-- [Gigalixir](https://gigalixir.com/) (doesn't limit number of connections)
+# Limitations
+
+Currently just the stop, play, next, prev buttons works. 
+Select a position in the video can't be done without using the youtube js api so it will not be part of this app at the moment, as I can show what it's possible with Live Reload.
+
 
 ## The Usual README Content
 
