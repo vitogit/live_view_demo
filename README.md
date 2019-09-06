@@ -16,7 +16,7 @@ Roll 2 dices of 6 using this command in the chat `/r 2d6`, add a new playlist pa
 
 # Development
 
-The idea is to show the power of Phoenix Live View so I tried to use almost no javascript. This currently allows you to add a new youtube playlist, play the playlist and stop the playlist. This is done changing the variables of the youtube playlist, like autostart=1 to start the video , autostart=0 to stop it. Phoenix will reload the video when the video string changes.
+The idea is to show the power of Phoenix Live View so I tried to use no javascript. This currently allows you to add a new youtube playlist, play the playlist, stop the playlist and move to the next or previous video. This is done changing the variables of the youtube playlist, like autostart=1 to start the video , autostart=0 to stop it, index=index+1 to advance to the next video. Phoenix will reload the video when the video string changes.
 
 # Limitations
 

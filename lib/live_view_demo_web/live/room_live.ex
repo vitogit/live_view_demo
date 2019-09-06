@@ -49,14 +49,33 @@ defmodule LiveViewDemoWeb.RoomLive do
   end
 
   def handle_event("play_video", _, socket) do
-    new_video = String.replace(socket.assigns[:video], "autoplay=0", "autoplay=1")
-    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Played the video", video: new_video } )
-    {:noreply, assign(socket, video: new_video) }
+    player_action("autoplay=0", "autoplay=1", "Played the video", socket)
   end
 
   def handle_event("stop_video", _, socket) do
-    new_video = String.replace(socket.assigns[:video], "autoplay=1", "autoplay=0")
-    result = Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: "Stopped the video", video: new_video } )
+    player_action("autoplay=1", "autoplay=0", "Stopped the video", socket)
+  end
+
+  def handle_event("next_video", _, socket) do
+    new_video = socket.assigns[:video]
+    index_string = URI.parse(new_video).query |> URI.decode_query |> Map.get("index")
+    index =  if index_string, do: String.to_integer(index_string), else: 0
+    player_action("index=#{index}", "index=#{index+1}", "Playing the next video, index: #{index+1}", socket)
+  end
+
+  def handle_event("prev_video", _, socket) do
+    new_video = socket.assigns[:video]
+    index_string = URI.parse(new_video).query |> URI.decode_query |> Map.get("index")
+    index =  if index_string, do: String.to_integer(index_string), else: 0
+    player_action("index=#{index}", "index=#{index-1}", "Playing the prev video, index:#{index-1} ", socket)
+  end
+
+  def player_action(origin_string, replace_string, message_string, socket) do
+    new_video = socket.assigns[:video]
+    if (socket.assigns[:video] && socket.assigns[:video] != "" ) do
+      new_video = String.replace(socket.assigns[:video], origin_string, replace_string)
+      Room.create_message( %{room: socket.assigns[:room], username: socket.assigns[:username], content: message_string, video: new_video } )
+    end
     {:noreply, assign(socket, video: new_video) }
   end
 end
