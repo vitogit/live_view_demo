@@ -25,6 +25,10 @@ I have experience in Ruby on Rails but this is my first Phoenix project so proba
 Currently just the stop, play, next, prev buttons works. 
 Select a position in the video can't be done without using the youtube js api so it will not be part of this app at the moment, as I can show what it's possible with Live Reload.
 
+Also to be in sync all users must be in the room when the play, stop, next, prev actions take place. If a user enter after the video is playing it will no be in sync. To sync again, one of the player can paste the link again and use the start and index variable to select start time and video from the playlist
+Like this:
+https://www.youtube.com/playlist?list=PLtTtLKRL6UYGxOHToRYnXBynon5plZ7Jd&start=50&index=3
+
 
 ## The Usual README Content
 
